@@ -3,7 +3,7 @@ info:
   title: spec
   version: '1.0'
 paths:
-  '/user/{productId}':
+  '/user/{userId}':
     get:
       summary: Get a user by id or email
       operationId: get-user
@@ -11,7 +11,7 @@ paths:
         '200':
           description: OK
     parameters:
-      - $ref: '#/components/parameters/productId'
+      - $ref: '#/components/parameters/userId'
 components:
   schemas:
     id:
@@ -29,8 +29,8 @@ components:
       description: Unique email for the user.
       example: john.doe@gmail.com
   parameters:
-    productId:
-      name: productId
+    userId:
+      name: userId
       in: path
       required: true
       schema:

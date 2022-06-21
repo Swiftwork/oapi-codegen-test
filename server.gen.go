@@ -25,14 +25,14 @@ type Email = openapi_types.Email
 // Unique identifier for the user.
 type Id = string
 
-// ProductId defines model for productId.
-type ProductId interface{}
+// UserId defines model for userId.
+type UserId interface{}
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 	// Get a user by id or email
-	// (GET /user/{productId})
-	GetUser(ctx echo.Context, productId ProductId) error
+	// (GET /user/{userId})
+	GetUser(ctx echo.Context, userId UserId) error
 }
 
 // ServerInterfaceWrapper converts echo contexts to parameters.
@@ -43,16 +43,16 @@ type ServerInterfaceWrapper struct {
 // GetUser converts echo context to params.
 func (w *ServerInterfaceWrapper) GetUser(ctx echo.Context) error {
 	var err error
-	// ------------- Path parameter "productId" -------------
-	var productId ProductId
+	// ------------- Path parameter "userId" -------------
+	var userId UserId
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "productId", runtime.ParamLocationPath, ctx.Param("productId"), &productId)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "userId", runtime.ParamLocationPath, ctx.Param("userId"), &userId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter productId: %s", err))
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter userId: %s", err))
 	}
 
 	// Invoke the callback with all the unmarshalled arguments
-	err = w.Handler.GetUser(ctx, productId)
+	err = w.Handler.GetUser(ctx, userId)
 	return err
 }
 
@@ -84,21 +84,21 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 		Handler: si,
 	}
 
-	router.GET(baseURL+"/user/:productId", wrapper.GetUser)
+	router.GET(baseURL+"/user/:userId", wrapper.GetUser)
 
 }
 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/3xSXW/TQBD8K9bSNy62WwQIP9GXIgQiQBUeqIJ0+Nb2ot5H9tYoaXT/vTq7TVpV7ZM1",
-	"vrndmbnZQ+tt8A6dRGj2EDRri4I8I/ZmbOWzyYAcNBC0DKDAaYsZHc4VMG5GYjTQCI+oILYDWp0vardb",
-	"dtBc7eGEsYMGXlXHpdXMixUZSOplClpN15DWCraL3i9kF7KIKEyuh5TS/dJJ+0xu9mAwtkxByGcDK0eb",
-	"EYvptOg8FzJgMUbkEhTgVttwnYf+84MrjcePfSaWrbegoPNstUBzN1uBkEzsA36sSAGZZxWQQSfUEfIL",
-	"Mk43u+XqkuTn+O3tj++XF92v/t35SKvx5gIUWL39iq6XAZqz9wosuYcwaBHkvPHPlV7cnC9+14sP69cn",
-	"D3STeSo6x0iu81n4PS8GbEHBf+Q4ezgt62zPB3Q6EDTwpqzLGqalwxR/lc1U+0NDUv7Zo+SPD8g6p5GL",
-	"BZ9QVhF5qlAM3kWcBpzV9dPsll9geubRWs27+XKhp+CKv7uCTOG5uKuJelTmZ9p3pFTHMqd1Suk2AAD/",
-	"/2GCuoQaAwAA",
+	"H4sIAAAAAAAC/3yST2/UMBDFv0r06A1vkhYBwid6KUIgClTLgWqRzGaSDKr/rO2g3a783ZGdXdqqak/J",
+	"xG88v3l5e6ytdtaQiQFyD6e80hTJl2oK5D92+Y0NJJyKIwSM0gR5PBTwtJnYUwcZ/UQCYT2SVrlLmd1l",
+	"D3m9x4mnHhIvmrtxzawLDXdI4nkJacU3SCuB7WKwi7hzmSBEz2ZASuk4tFDPYrlHR2Ht2UW2mX5peDNR",
+	"VU6r3voqjlTlJWoI0FZpd5Mv/WNHU3eW3g9ZWK+thkBvvVYR8nC3QORY1P/rh0QC3D1JwB2ZyD2Tfwbj",
+	"dLO7XF5x/D59ef3t69VF/2N4cz7xcrq9gIBW289khjhCnr0V0Gzul07FSD5P/HWtFrfni5/t4t3q5ck9",
+	"bu4eQ2cb2fQ2gx91wdEaAn/Jh3mH07rN61lHRjmGxKu6rVuUoWOxv8nLNPs5Hil/GSjmh3XkVbYiRwof",
+	"KC4D+ZKf4KwJVLrP2vaxcZefUP7xpLXyu7m5UsW16veu4q6yvjpkRDzI8BPRu5M0hxinVUrpXwAAAP//",
+	"q276mA4DAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file
