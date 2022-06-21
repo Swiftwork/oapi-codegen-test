@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: spec
+  version: '1.0'
+paths:
+  '/user/{productId}':
+    get:
+      summary: Get a user by id or email
+      operationId: get-user
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - $ref: '#/components/parameters/productId'
+components:
+  schemas:
+    id:
+      type: string
+      title: id
+      description: Unique identifier for the user.
+      pattern: '^[a-zA-Z0-9]+$'
+      example: 1qyOUSitRuN5QPSFfVg6AuiUuzF
+      minLength: 27
+      maxLength: 27
+    email:
+      type: string
+      format: email
+      title: email
+      description: Unique email for the user.
+      example: john.doe@gmail.com
+  parameters:
+    productId:
+      name: productId
+      in: path
+      required: true
+      schema:
+        x-go-type: string
+        anyOf:
+          - $ref: '#/components/schemas/id'
+          - $ref: '#/components/schemas/email'
